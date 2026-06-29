@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -788,6 +789,73 @@ td em { color: var(--gold2); font-style: italic; }
 .quiz-recap-item .qr-icon { flex-shrink: 0; }
 .quiz-recap-item .qr-icon.ok-icon { color: #5dca8a; }
 .quiz-recap-item .qr-icon.ko-icon { color: #e07060; }
+
+/* ===================================================================
+   STYLES SPÉCIFIQUES GRAMMAIRE
+   =================================================================== */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.step {
+  display: flex;
+  gap: 1rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 1rem 1.25rem;
+  align-items: flex-start;
+}
+.step-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--gold);
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+.step-body h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.2rem 0;
+}
+.step-body p {
+  font-size: 0.85rem;
+  color: var(--text2);
+  margin: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin: 1.5rem 0 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.tab {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--gold2); border-bottom-color: var(--gold); }
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ===================================================================
+   STYLES SPÉCIFIQUES LECTURE CURSIVE
+   =================================================================== */
+/* déjà largement couvert par les styles existants */
 </style>
 </head>
 <body>
@@ -804,6 +872,8 @@ td em { color: var(--gold2); font-style: italic; }
     <div class="nav-item active" onclick="showPage('accueil')"><span class="nav-icon">🏠</span> Accueil</div>
     <div class="nav-item" onclick="showPage('introductions')"><span class="nav-icon">✍️</span> Introductions</div>
     <div class="nav-item" onclick="showPage('problematiques')"><span class="nav-icon">🧭</span> Problématiques</div>
+    <div class="nav-item" onclick="showPage('grammaire')"><span class="nav-icon">📘</span> Grammaire</div>
+    <div class="nav-item" onclick="showPage('lecturecursive')"><span class="nav-icon">📚</span> Lecture cursive</div>
   </div>
 
   <div class="sidebar-group">
@@ -864,7 +934,7 @@ td em { color: var(--gold2); font-style: italic; }
 
   <div class="callout callout-gold">
     <span class="callout-icon">★</span>
-    <div><strong>Mode d'emploi :</strong> Utilisez le menu pour naviguer par genre (Poésie, Roman, Théâtre, Littérature d'idées) jusqu'au texte voulu. Les pages <strong>Introductions</strong> et <strong>Problématiques</strong> regroupent ces deux éléments pour les 16 textes, à réviser en dernière minute juste avant l'oral.</div>
+    <div><strong>Mode d'emploi :</strong> Utilisez le menu pour naviguer par genre (Poésie, Roman, Théâtre, Littérature d'idées) jusqu'au texte voulu. Les pages <strong>Introductions</strong> et <strong>Problématiques</strong> regroupent ces deux éléments pour les 16 textes, à réviser en dernière minute juste avant l'oral. Les pages <strong>Grammaire</strong> et <strong>Lecture cursive</strong> vous préparent aux deux autres parties de l'épreuve.</div>
   </div>
 
   <h2><span class="h2-num">01</span> Poésie</h2>
@@ -3689,6 +3759,372 @@ td em { color: var(--gold2); font-style: italic; }
   </div>
 </div>
 
+<!-- ==================== GRAMMAIRE ==================== -->
+<div class="page" id="page-grammaire">
+  <h1><em>Grammaire</em> à l'oral</h1>
+  <p class="subtitle">2 POINTS SUR 20 · 3 AXES · MÉTHODE EN 4 ÉTAPES</p>
+
+  <div class="callout callout-gold">
+    <span class="callout-icon">★</span>
+    <div><strong>Ce qu'on attend de toi :</strong> à partir d'une phrase (ou portion de phrase) du texte que tu viens d'expliquer, l'examinateur te demande d'<strong>identifier</strong> un fait de langue, de le <strong>justifier par une manipulation</strong> (déplacer, supprimer, transformer) et d'en <strong>commenter l'effet de sens</strong>. Réponse attendue en 2 minutes maximum, avec un vocabulaire technique précis.</div>
+  </div>
+
+  <h2><span class="h2-num">—</span> La méthode universelle (les 4 réflexes)</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Identifier le type de phrase</h3>
+        <p>Phrase <strong>simple</strong> (un seul verbe conjugué) ou <strong>complexe</strong> (plusieurs verbes conjugués = plusieurs propositions). Si complexe : repérer la principale et la ou les subordonnée(s).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Décrire et construire (D/C)</h3>
+        <p>Citer le passage exact, nommer le <strong>mot subordonnant / interrogatif / négatif</strong> avec sa classe grammaticale précise (conjonction de subordination, pronom relatif, adverbe…), préciser le <strong>temps et le mode</strong> du verbe concerné.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Manipuler / justifier (P/M)</h3>
+        <p>Toujours proposer une <strong>manipulation</strong> qui prouve ton analyse : supprimer, déplacer, transformer à l'affirmative, passer du direct à l'indirect... La manipulation réussie est ce qui rapporte des points.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Donner la valeur (V)</h3>
+        <p>Conclure sur le <strong>sens précis</strong> : quelle circonstance (cause, but…) ? négation totale ou partielle ? interrogation réelle ou rhétorique ? C'est cette dernière étape qui distingue une bonne réponse d'une réponse excellente.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this,'gram-subo')">1. Subordonnées</button>
+    <button class="tab" onclick="switchTab(this,'gram-interro')">2. Interrogation</button>
+    <button class="tab" onclick="switchTab(this,'gram-neg')">3. Négation</button>
+  </div>
+
+  <!-- ===== TAB SUBORDONNÉES ===== -->
+  <div class="tab-pane active" id="gram-subo">
+
+    <h2><span class="h2-num">01</span> Repérer une phrase complexe</h2>
+    <div class="card">
+      <div class="card-label">Définition</div>
+      <p>Une <strong>proposition</strong> est un groupe de mots organisé autour d'un verbe conjugué. La phrase <strong>simple</strong> n'a qu'un verbe conjugué ; la phrase <strong>complexe</strong> en a plusieurs, reliées par <strong>juxtaposition</strong> (virgule, point-virgule), <strong>coordination</strong> (mais, ou, et, donc, or, ni, car) ou <strong>subordination</strong> (un mot subordonnant rend une proposition dépendante d'une autre).</p>
+    </div>
+
+    <h2><span class="h2-num">02</span> Les 3 grands types de subordonnées</h2>
+    <table>
+      <tr><th>Type</th><th>Introduite par</th><th>Fonction</th><th>Exemple</th></tr>
+      <tr>
+        <td><strong>Relative</strong></td>
+        <td>Pronom relatif : qui, que, dont, où, lequel…</td>
+        <td>Complète un nom/GN (l'antécédent) : épithète ou CDN</td>
+        <td>« l'aventure <em>que je raconte</em> »</td>
+      </tr>
+      <tr>
+        <td><strong>Conjonctive complétive</strong></td>
+        <td>« que » (ou à/de/en ce que)</td>
+        <td>COD, sujet ou complément du verbe de la principale</td>
+        <td>« il veut <em>que le lecteur le comprenne</em> »</td>
+      </tr>
+      <tr>
+        <td><strong>Conjonctive circonstancielle</strong></td>
+        <td>Conjonction/locution : parce que, bien que, quand, si…</td>
+        <td>Complément circonstanciel (CC) du verbe de la principale</td>
+        <td>« il pleure <em>parce qu'il l'a vécu</em> »</td>
+      </tr>
+    </table>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">✓</span>
+      <div><strong>Le réflexe qui rapporte des points :</strong> la circonstancielle est toujours <strong>supprimable et déplaçable</strong> (comme tout CC) — sauf la consécutive, qui ne se déplace pas. Propose toujours cette manipulation à voix haute : « si je supprime/déplace cette proposition, la phrase reste correcte, ce qui confirme qu'il s'agit bien d'un complément circonstanciel. »</div>
+    </div>
+
+    <h2><span class="h2-num">03</span> Tableau des conjonctions par valeur (circonstancielles)</h2>
+    <table>
+      <tr><th>Valeur</th><th>Conjonctions / locutions</th><th>Mode</th></tr>
+      <tr><td><strong>Temps</strong></td><td>quand, lorsque, dès que, après que, avant que, depuis que, sitôt que</td><td>Indicatif (sauf <em>avant que</em>, <em>en attendant que</em> : subjonctif)</td></tr>
+      <tr><td><strong>Cause</strong></td><td>parce que, puisque, comme, étant donné que, vu que</td><td>Indicatif</td></tr>
+      <tr><td><strong>Conséquence</strong></td><td>si bien que, de sorte que, si… que, trop/assez… pour que</td><td>Indicatif (subjonctif après « pour que »)</td></tr>
+      <tr><td><strong>But</strong></td><td>pour que, afin que, de peur que, de crainte que</td><td>Subjonctif</td></tr>
+      <tr><td><strong>Condition</strong></td><td>si, à condition que, pourvu que, à moins que, pour peu que</td><td>Indicatif (si) / Subjonctif (les autres)</td></tr>
+      <tr><td><strong>Concession / opposition</strong></td><td>bien que, quoique, alors que, tandis que, même si</td><td>Subjonctif (bien que, quoique) / Indicatif (alors que, tandis que)</td></tr>
+      <tr><td><strong>Comparaison</strong></td><td>comme, ainsi que, de même que, plus/moins… que</td><td>Indicatif</td></tr>
+    </table>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠</span>
+      <div><strong>Piège classique :</strong> « bien que » et « quoique » imposent le <strong>subjonctif</strong> — une erreur de mode ici coûte des points même si la valeur est correctement identifiée.</div>
+    </div>
+
+    <h2><span class="h2-num">04</span> Réponse-modèle à réciter (à adapter)</h2>
+    <div class="formula">
+      « Il s'agit d'une phrase complexe : la proposition « … » dépend de la principale « … ». Elle est introduite par [mot subordonnant], [classe grammaticale précise], et contient le verbe « … » au [temps/mode]. Cette subordonnée est supprimable et déplaçable — [le prouver] — ce qui confirme sa fonction de complément circonstanciel de [valeur]. »
+    </div>
+  </div>
+
+  <!-- ===== TAB INTERROGATION ===== -->
+  <div class="tab-pane" id="gram-interro">
+
+    <h2><span class="h2-num">01</span> Directe vs indirecte</h2>
+    <table>
+      <tr><th>Type</th><th>Construction</th><th>Marques</th><th>Exemple</th></tr>
+      <tr>
+        <td><strong>Interrogation directe</strong></td>
+        <td>Phrase simple, autonome</td>
+        <td>Point d'interrogation + inversion sujet/verbe (ou « est-ce que », ou intonation seule à l'oral)</td>
+        <td>« Que veux-tu ? »</td>
+      </tr>
+      <tr>
+        <td><strong>Interrogation indirecte</strong></td>
+        <td>Phrase complexe : subordonnée complétive interrogative, dépendant d'un verbe comme <em>demander, ignorer, savoir</em></td>
+        <td>Pas de point d'interrogation, pas d'inversion ; introduite par « si » ou un mot interrogatif</td>
+        <td>« Je me demande <em>s'il viendra</em> »</td>
+      </tr>
+    </table>
+
+    <h2><span class="h2-num">02</span> Totale vs partielle</h2>
+    <table>
+      <tr><th>Type</th><th>Porte sur…</th><th>Réponse</th><th>Marque</th></tr>
+      <tr><td><strong>Totale</strong></td><td>L'ensemble de la phrase</td><td>oui / non</td><td>Intonation montante ; inversion simple ou « est-ce que »</td></tr>
+      <tr><td><strong>Partielle</strong></td><td>Un seul élément de la phrase</td><td>Réponse ouverte précise</td><td>Mot interrogatif (qui, que, quand, où, pourquoi, comment, quel…)</td></tr>
+    </table>
+
+    <h2><span class="h2-num">03</span> Les mots interrogatifs</h2>
+    <table>
+      <tr><th>Classe</th><th>Mots</th><th>Porte sur</th></tr>
+      <tr><td>Pronoms interrogatifs</td><td>qui, que, quoi, lequel</td><td>sujet, COD, COI (« à qui ? », « de quoi ? »)</td></tr>
+      <tr><td>Déterminant interrogatif</td><td>quel(le)(s)</td><td>devant un nom : « quelle heure est-il ? »</td></tr>
+      <tr><td>Adverbes interrogatifs</td><td>comment, où, pourquoi, quand, combien</td><td>circonstances : manière, lieu, cause, temps</td></tr>
+    </table>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">✓</span>
+      <div><strong>Manipulation qui rapporte des points :</strong> transforme l'interrogation directe en indirecte (ou l'inverse) et nomme ce qui change. <em>« Veux-tu un cookie ? »</em> → <em>« Il me demande si je veux un cookie »</em> : disparition du point d'interrogation, de l'inversion, apparition du mot subordonnant « si » et de la subordination au verbe « demander ».</div>
+    </div>
+
+    <h2><span class="h2-num">04</span> Les 3 inversions du sujet (interrogation directe)</h2>
+    <table>
+      <tr><th>Type</th><th>Cas</th><th>Exemple</th></tr>
+      <tr><td>Inversion simple</td><td>Sujet = pronom personnel ou « ce »</td><td>« As-tu fini ? » / « Est-ce vrai ? »</td></tr>
+      <tr><td>Inversion complexe</td><td>Sujet = GN : repris après le verbe par un pronom</td><td>« Edmond tentera-t-il de s'évader ? »</td></tr>
+      <tr><td>« Est-ce que »</td><td>Pas d'inversion, tournure plus orale</td><td>« Est-ce que tu veux de l'eau ? »</td></tr>
+    </table>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠</span>
+      <div><strong>Ne pas oublier la valeur :</strong> une question peut être <strong>réelle</strong> (attend une vraie réponse), <strong>rhétorique</strong> (la réponse est déjà connue, effet d'évidence ou de persuasion) ou <strong>polémique</strong> (attaque l'interlocuteur). C'est souvent ce commentaire de la valeur qui distingue 1/2 point de 2/2.</div>
+    </div>
+
+    <h2><span class="h2-num">05</span> Réponse-modèle à réciter</h2>
+    <div class="formula">
+      « Il s'agit d'une interrogation [directe/indirecte], [totale/partielle], construite avec [mot interrogatif / inversion / est-ce que]. Elle porte sur [élément visé]. Si je la transforme en [directe/indirecte] : [manipulation] — ce qui confirme sa nature. Sa valeur est ici [réelle / rhétorique / polémique] car… »
+    </div>
+  </div>
+
+  <!-- ===== TAB NÉGATION ===== -->
+  <div class="tab-pane" id="gram-neg">
+
+    <h2><span class="h2-num">01</span> Définition et construction</h2>
+    <div class="card">
+      <div class="card-label">Définition</div>
+      <p>La négation est une <strong>forme de phrase</strong> qui s'oppose à l'affirmative. Elle se construit avec une <strong>locution négative en deux parties</strong> qui encadre le verbe (temps simple) ou l'auxiliaire (temps composé) : <em>ne… pas, ne… plus, ne… jamais, ne… rien, ne… personne, ne… aucun, ne… que…</em></p>
+    </div>
+
+    <h2><span class="h2-num">02</span> Totale, partielle ou restrictive</h2>
+    <table>
+      <tr><th>Type</th><th>Porte sur</th><th>Marques</th><th>Exemple</th></tr>
+      <tr>
+        <td><strong>Totale</strong></td>
+        <td>L'ensemble de la proposition (nie le verbe)</td>
+        <td>ne… pas, ne… point</td>
+        <td>« Il <em>ne</em> parle <em>pas</em> » (= il est faux qu'il parle)</td>
+      </tr>
+      <tr>
+        <td><strong>Partielle</strong></td>
+        <td>Un seul élément (sujet, COD, CC…), pas le verbe lui-même</td>
+        <td>ne… plus, ne… jamais, ne… personne, ne… rien, ne… aucun, nul ne…</td>
+        <td>« Elle <em>ne</em> vient <em>jamais</em> » (nie le CC de temps)</td>
+      </tr>
+      <tr>
+        <td><strong>Restrictive (exceptive)</strong></td>
+        <td>N'est pas une vraie négation : exprime une restriction</td>
+        <td>ne… que (= seulement), ne… guère</td>
+        <td>« Tout n'est <em>qu'</em>ordre et beauté » (= seulement)</td>
+      </tr>
+    </table>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">✓</span>
+      <div><strong>Manipulation qui rapporte des points :</strong> repasse la phrase à l'<strong>affirmative</strong> et observe ce qui disparaît. <em>« Il ne vole jamais »</em> → <em>« Il vole toujours »</em> : l'adverbe forclusif « jamais » devient « toujours », ce qui prouve que la négation porte sur la fréquence (négation partielle), pas sur l'existence même de l'action.</div>
+    </div>
+
+    <h2><span class="h2-num">03</span> Cas particuliers à connaître</h2>
+    <table>
+      <tr><th>Cas</th><th>Explication</th><th>Exemple</th></tr>
+      <tr><td><strong>« Ne » explétif</strong></td><td>Ne marque pas une vraie négation (doute, crainte, après « avant que », « à moins que », « de peur que » + subjonctif)</td><td>« avant qu'il <em>ne</em> parte »</td></tr>
+      <tr><td><strong>« Ne » seul (sans pas)</strong></td><td>Langue soutenue, après cesser, oser, daigner, pouvoir, savoir</td><td>« je <em>ne</em> saurais répondre »</td></tr>
+      <tr><td><strong>Négation lexicale</strong></td><td>Préfixes privatifs (in-, im-, dé-, a-) ou mots de sens négatif (personne, rien, aucun, sans)</td><td>« in-compréhensible », « sans espoir »</td></tr>
+      <tr><td><strong>Double négation</strong></td><td>Deux négations s'annulent : sens positif renforcé</td><td>« n'est pas moins amer » (= plus amer encore)</td></tr>
+    </table>
+
+    <h2><span class="h2-num">04</span> Valeurs et effets à commenter</h2>
+    <table>
+      <tr><th>Effet</th><th>Définition</th></tr>
+      <tr><td><strong>Négation polémique</strong></td><td>S'oppose frontalement à une idée, marque le conflit (théâtre, argumentation)</td></tr>
+      <tr><td><strong>Litote</strong></td><td>Dire moins pour suggérer plus : « je ne te hais point » (= je t'aime)</td></tr>
+      <tr><td><strong>Antiphrase / ironie</strong></td><td>La négation implicite ou le sens contextuel inverse le sens explicite</td></tr>
+    </table>
+
+    <h2><span class="h2-num">05</span> Réponse-modèle à réciter</h2>
+    <div class="formula">
+      « La phrase est à la forme négative : on observe [les mots négatifs] qui encadrent le verbe « … ». Si je transforme à l'affirmative : [manipulation] — ce qui prouve que la négation porte sur [tout / cet élément précis], il s'agit donc d'une négation [totale / partielle / restrictive]. Cet effet traduit ici [valeur : litote, polémique...]. »
+    </div>
+  </div>
+
+  <h2><span class="h2-num">—</span> Pense-bête le jour J</h2>
+  <div class="bas-fiche-grid">
+    <div class="card" style="border-left:3px solid var(--gold);">
+      <div class="card-label">⏱ Avant de répondre</div>
+      <ul>
+        <li>Relire la phrase 2 fois et la situer (qui parle ? à qui ?).</li>
+        <li>Identifier le type de phrase (simple/complexe) avant tout le reste.</li>
+        <li>Toujours préparer une manipulation concrète, pas seulement une définition.</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <div class="card-label" style="color:#e07060;">⚠ À éviter</div>
+      <ul>
+        <li>Ne pas <strong>réciter une définition</strong> sans l'appliquer à la phrase précise.</li>
+        <li>Ne pas confondre <strong>genre</strong> (texte) et <strong>type/forme de phrase</strong> (grammaire).</li>
+        <li>Ne pas oublier de conclure sur la <strong>valeur</strong> — c'est souvent ce qui manque pour le 2ᵉ point.</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--green);">
+      <div class="card-label" style="color:#5dca8a;">✓ Les 3 mots qui structurent toute réponse</div>
+      <p style="margin-bottom:0;"><strong>Identifier</strong> (quoi ?) → <strong>Manipuler</strong> (comment le prouver ?) → <strong>Interpréter</strong> (quel effet de sens ?). Cette structure en 3 temps fonctionne pour les 3 axes, quelle que soit la phrase donnée par l'examinateur.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== LECTURE CURSIVE ==================== -->
+<div class="page" id="page-lecturecursive">
+  <h1>Lecture <em>cursive</em></h1>
+  <p class="subtitle">VICTOR HUGO · LES CHÂTIMENTS (1853) · PRÉSENTATION + ENTRETIEN</p>
+
+  <div class="callout callout-gold">
+    <span class="callout-icon">★</span>
+    <div><strong>Déroulement de cette partie :</strong> présentation brève de l'œuvre choisie (2-3 minutes), puis entretien de 8 minutes avec l'examinateur sur cette base. L'examinateur évalue ta capacité à <strong>dialoguer, nuancer, justifier et défendre ton choix</strong> — ce n'est pas une récitation, mais une vraie discussion.</div>
+  </div>
+
+  <div class="mode-switch">
+    <button class="mode-btn active" onclick="setMode('lc','lecture',this)">📖 Présentation + questions</button>
+    <button class="mode-btn" onclick="setMode('lc','quiz',this)">🧠 Quiz</button>
+  </div>
+
+  <!-- MODE LECTURE -->
+  <div class="quiz-mode active" id="lc-mode-lecture">
+
+  <h2><span class="h2-num">01</span> Ma présentation (texte de référence)</h2>
+
+  <div class="card">
+    <div class="card-label">Présentation orale — 2 à 3 minutes</div>
+    <p>Je vais vous présenter <em>Les Châtiments</em>, un recueil de poèmes publié en 1853 par Victor Hugo. Victor Hugo est un écrivain majeur du XIX<sup>e</sup> siècle. Il est à la fois poète, romancier et dramaturge, notamment connu pour <em>Les Misérables</em>, <em>Notre-Dame de Paris</em>, ou encore des pièces comme <em>Hernani</em> et <em>Ruy Blas</em>. Il est souvent associé au mouvement romantique, qui valorise l'expression des sentiments, l'engagement de l'écrivain et la liberté artistique.</p>
+    <p>Victor Hugo est également un écrivain très engagé politiquement et un fervent partisan de la République. Lorsqu'il écrit <em>Les Châtiments</em>, il est en exil sur les îles Anglo-Normandes de Jersey puis de Guernesey, afin d'éviter la répression du régime de Louis-Napoléon Bonaparte après le coup d'État de 1851.</p>
+    <p><em>Les Châtiments</em> est une œuvre de poésie engagée et satirique dans laquelle Hugo dénonce la violence, l'injustice et l'autoritarisme du pouvoir impérial. À travers la satire et la caricature, il attaque directement Louis-Napoléon Bonaparte, qu'il présente comme un tyran illégitime.</p>
+    <p>Le recueil est divisé en deux grandes parties, <em>Nox</em> et <em>Lux</em>, qui signifient en latin la nuit et la lumière. <em>Nox</em> symbolise l'obscurité, la violence et l'oppression du Second Empire, tandis que <em>Lux</em> représente l'espoir, la justice et la foi dans l'avenir.</p>
+    <p>À travers ces poèmes, Hugo donne à la poésie un rôle politique et moral : il l'utilise comme une arme pour condamner le régime, défendre les valeurs républicaines et inscrire son combat dans l'Histoire.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">ℹ</span>
+    <div>Pense à préparer en plus, à l'oral réel, <strong>une phrase sur ce que tu as personnellement retenu ou aimé</strong> dans l'œuvre (un poème, une image, une formule) — c'est souvent la première relance de l'examinateur après la présentation, et une réponse uniquement factuelle ne suffit pas à elle seule.</div>
+  </div>
+
+  <h2><span class="h2-num">02</span> Questions possibles de l'examinateur</h2>
+  <p style="margin-bottom:1.5rem;">Classées par niveau de difficulté croissant — entraîne-toi à répondre à voix haute, en 30 secondes à 1 minute par question, toujours avec un exemple précis du recueil.</p>
+
+  <h3 style="color:var(--gold2);font-family:'Playfair Display',serif;font-size:1.1rem;">Niveau 1 — Questions factuelles (vérifier la lecture)</h3>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Pourquoi avez-vous choisi cette œuvre ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Que signifient les titres « Nox » et « Lux » ? Que représentent ces deux parties ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Dans quel contexte historique et personnel Victor Hugo écrit-il ce recueil ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Qui est visé par cette œuvre ? Pourquoi Hugo s'en prend-il à lui ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">À quel mouvement littéraire Victor Hugo est-il associé ? Pouvez-vous citer d'autres œuvres de lui ?</p>
+  </div>
+
+  <h3 style="color:var(--gold2);font-family:'Playfair Display',serif;font-size:1.1rem;margin-top:2rem;">Niveau 2 — Questions d'analyse (comprendre les enjeux)</h3>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">En quoi peut-on dire que la poésie devient, chez Hugo, une arme politique ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Comment Hugo utilise-t-il la satire et la caricature pour discréditer Napoléon III ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Quel rôle joue l'exil dans l'écriture et la tonalité du recueil ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Pourquoi structurer le recueil autour de l'opposition entre nuit et lumière ? Quel est l'effet de cette construction en deux mouvements ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">En quoi cette œuvre est-elle représentative de l'engagement de l'écrivain au XIXe siècle ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Quels procédés (registre, figures de style, ton) Hugo emploie-t-il pour dénoncer le pouvoir impérial ?</p>
+  </div>
+
+  <h3 style="color:var(--gold2);font-family:'Playfair Display',serif;font-size:1.1rem;margin-top:2rem;">Niveau 3 — Questions personnelles et d'ouverture</h3>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Cette œuvre vous paraît-elle encore actuelle aujourd'hui ? Pourquoi ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Pensez-vous que la littérature puisse réellement changer ou influencer le cours de l'Histoire ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Un écrivain a-t-il, selon vous, un devoir d'engagement politique ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Y a-t-il un passage ou une image du recueil qui vous a particulièrement marqué(e) ? Pourquoi ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Peut-on rapprocher cette œuvre d'un autre texte étudié dans l'année (poésie engagée, littérature d'idées) ?</p>
+  </div>
+  <div class="pbm-item">
+    <p class="pbm-item-text" style="font-style:normal;color:var(--text);">Si vous deviez convaincre quelqu'un de lire ce recueil aujourd'hui, que lui diriez-vous ?</p>
+  </div>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">✓</span>
+    <div><strong>Méthode de réponse pour toute question d'entretien :</strong> rappelle d'abord brièvement l'idée générale, puis appuie-toi sur un <strong>exemple précis</strong> du recueil (un titre de poème, une image, une formule connue comme « Souvenir de la nuit du 4 » ou l'apostrophe à Napoléon III), explique en quoi cet exemple répond à la question, puis conclus en une phrase de synthèse.</div>
+  </div>
+
+  </div><!-- /mode lecture -->
+
+  <!-- MODE QUIZ -->
+  <div class="quiz-mode" id="lc-mode-quiz">
+    <div class="quiz-setup">
+      <div class="quiz-progress" id="lc-quiz-progress">Question 1 / 17</div>
+      <div class="quiz-score" id="lc-quiz-score">Score : 0 / 0</div>
+      <button class="quiz-restart-btn" onclick="restartQuiz('lc')">↻ Recommencer (ordre aléatoire)</button>
+    </div>
+    <div id="lc-quiz-area"></div>
+  </div>
+
+</div>
+
 </div><!-- end .main -->
 
 <div class="mobile-toggle" onclick="toggleSidebar()">☰</div>
@@ -3702,7 +4138,7 @@ const FICHE_GENRE = {
   13: 'idees', 14: 'idees', 15: 'idees', 16: 'idees'
 };
 
-// ===== NAVIGATION : pages simples (accueil / introductions / problématiques) =====
+// ===== NAVIGATION : pages simples (accueil / introductions / problématiques / grammaire / lecture cursive) =====
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -3732,14 +4168,12 @@ function showFiche(n) {
   const page = document.getElementById('page-fiche-' + n);
   if (page) page.classList.add('active');
 
-  // Activer le bon sous-item dans le menu
   document.querySelectorAll('.sub-item').forEach(item => {
     if (item.getAttribute('onclick') === `showFiche(${n})`) {
       item.classList.add('active');
     }
   });
 
-  // Ouvrir automatiquement le bon sous-menu (genre) et fermer les autres
   const genre = FICHE_GENRE[n];
   ['poesie','roman','theatre','idees'].forEach(g => {
     const sub = document.getElementById('submenu-' + g);
@@ -3756,13 +4190,12 @@ function showFiche(n) {
   }
 }
 
-// ===== Sous-menus déroulants (clic manuel sur un genre) =====
+// ===== Sous-menus déroulants =====
 function toggleSubmenu(genre) {
   const sub = document.getElementById('submenu-' + genre);
   const parent = document.getElementById('parent-' + genre);
   const isOpen = sub.classList.contains('open');
 
-  // Ferme tous les autres sous-menus pour garder le menu propre
   ['poesie','roman','theatre','idees'].forEach(g => {
     if (g !== genre) {
       document.getElementById('submenu-' + g).classList.remove('open');
@@ -3783,7 +4216,15 @@ function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
 }
 
-// Ouvre le menu Poésie par défaut au chargement, pour montrer la structure
+// ===== Onglets de la page Grammaire =====
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Ouvre le menu Poésie par défaut au chargement
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('submenu-poesie').classList.add('open');
   document.getElementById('parent-poesie').classList.add('open');
@@ -3791,9 +4232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* =====================================================================
-   QUIZ — apprentissage actif (Problématiques + Introductions)
-   Repris du script Python fourni : normalisation, comparaison stricte,
-   puis auto-jugement par l'utilisateur si la formulation diffère.
+   QUIZ — apprentissage actif (Problématiques, Introductions, Lecture cursive)
    ===================================================================== */
 
 // ----- Données : les 16 problématiques -----
@@ -3828,21 +4267,40 @@ const INTRODUCTIONS = {
   8: { label: "Littérature d'idées · Montesquieu (introduction complète)", text: "Montesquieu est un philosophe et écrivain du XVIIIe siècle, figure majeure des Lumières, connu notamment pour De l'Esprit des lois (1748). Les Lettres persanes, publiées anonymement en 1721 à Amsterdam, Montesquieu se présentant comme simple éditeur pour éviter la censure, constituent une argumentation indirecte typique des Lumières. Le roman épistolaire fictif rassemble la correspondance échangée entre deux Persans, Rica et Usbek, et leurs amis restés en Perse. Au fil du roman, Rica et Usbek portent un regard critique sur la société française tandis que les femmes restées au sérail se révoltent progressivement contre l'autorité d'Usbek. La lettre 161 est la dernière lettre du roman : Roxane y avoue à Usbek qu'elle l'a trompé, révèle sa véritable nature et meurt empoisonnée. Ce passage relève des registres lyrique, pathétique et polémique, et permet de s'interroger sur la manière dont l'esthétique épistolaire permet une réflexion sur les inégalités femmes-hommes. On peut donc se demander : en quoi l'esthétique du roman épistolaire permet-elle une réflexion sur les inégalités femmes-hommes ?" },
 };
 
-// État de chaque quiz (un par catégorie)
+// ----- Données : les 17 questions de la Lecture cursive (Les Châtiments) -----
+const LC_QUESTIONS = {
+  1: { label: "Pourquoi avez-vous choisi cette œuvre ?", text: "Réponse personnelle à préparer, en lien avec l'engagement politique de Hugo." },
+  2: { label: "Que signifient les titres « Nox » et « Lux » ? Que représentent ces deux parties ?", text: "Nox = nuit, oppression, Second Empire ; Lux = lumière, espoir, justice, avenir." },
+  3: { label: "Dans quel contexte historique et personnel Victor Hugo écrit-il ce recueil ?", text: "Exil à Jersey/Guernesey après le coup d'État de 1851 de Louis-Napoléon Bonaparte." },
+  4: { label: "Qui est visé par cette œuvre ? Pourquoi Hugo s'en prend-il à lui ?", text: "Louis-Napoléon Bonaparte (Napoléon III), qu'il considère comme un tyran illégitime." },
+  5: { label: "À quel mouvement littéraire Victor Hugo est-il associé ? Pouvez-vous citer d'autres œuvres de lui ?", text: "Romantisme. Œuvres : Les Misérables, Notre-Dame de Paris, Hernani, Ruy Blas." },
+  6: { label: "En quoi peut-on dire que la poésie devient, chez Hugo, une arme politique ?", text: "Elle dénonce, caricature, accuse et défend des valeurs républicaines." },
+  7: { label: "Comment Hugo utilise-t-il la satire et la caricature pour discréditer Napoléon III ?", text: "Par des portraits grotesques, des apostrophes ironiques, des métaphores dévalorisantes." },
+  8: { label: "Quel rôle joue l'exil dans l'écriture et la tonalité du recueil ?", text: "L'exil donne une légitimité morale, une distance critique et une tonalité à la fois amère et prophétique." },
+  9: { label: "Pourquoi structurer le recueil autour de l'opposition entre nuit et lumière ? Quel est l'effet de cette construction ?", text: "Structure binaire : elle renforce l'idée d'un combat entre le mal et le bien, et d'une progression vers l'espoir." },
+  10: { label: "En quoi cette œuvre est-elle représentative de l'engagement de l'écrivain au XIXe siècle ?", text: "Elle montre un écrivain qui prend parti, utilise la littérature pour agir sur la société et l'Histoire." },
+  11: { label: "Quels procédés (registre, figures de style, ton) Hugo emploie-t-il pour dénoncer le pouvoir impérial ?", text: "Satire, hyperbole, métaphores, apostrophes, registre polémique et pathétique." },
+  12: { label: "Cette œuvre vous paraît-elle encore actuelle aujourd'hui ? Pourquoi ?", text: "Réponse personnelle, à justifier par des exemples contemporains de dénonciation par l'art." },
+  13: { label: "Pensez-vous que la littérature puisse réellement changer ou influencer le cours de l'Histoire ?", text: "Réponse personnelle, appuyée sur des arguments (ex : rôle des Lumières, de la presse)." },
+  14: { label: "Un écrivain a-t-il, selon vous, un devoir d'engagement politique ?", text: "Réponse personnelle, à nuancer selon les conceptions de la littérature." },
+  15: { label: "Y a-t-il un passage ou une image du recueil qui vous a particulièrement marqué(e) ? Pourquoi ?", text: "Réponse personnelle, à préparer à l'avance." },
+  16: { label: "Peut-on rapprocher cette œuvre d'un autre texte étudié dans l'année (poésie engagée, littérature d'idées) ?", text: "Réponse ouverte, par exemple avec Rimbaud, Beaumarchais, ou Graffigny." },
+  17: { label: "Si vous deviez convaincre quelqu'un de lire ce recueil aujourd'hui, que lui diriez-vous ?", text: "Réponse personnelle, argumentative." },
+};
+
+// État de chaque quiz
 const quizState = {
   pbm: { data: PROBLEMATIQUES, order: [], index: 0, score: 0, total: 0, recap: [], label: "problématique" },
   intro: { data: INTRODUCTIONS, order: [], index: 0, score: 0, total: 0, recap: [], label: "introduction" },
+  lc: { data: LC_QUESTIONS, order: [], index: 0, score: 0, total: 0, recap: [], label: "question" },
 };
 
-// ----- normalize() : équivalent JS de la fonction Python fournie -----
+// ----- Fonctions de normalisation et de mélange (inchangées) -----
 function normalize(text) {
   if (!text) return "";
   text = text.toLowerCase();
-  // décomposition unicode + suppression des diacritiques (équivalent unicodedata NFD + Mn)
   text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  // suppression de la ponctuation (équivalent \w \s en conservant lettres/chiffres/espaces)
   text = text.replace(/[^\w\s]/g, "");
-  // espaces multiples -> un seul espace, trim
   text = text.replace(/\s+/g, " ").trim();
   return text;
 }
@@ -3859,6 +4317,7 @@ function shuffle(array) {
 function initQuizzes() {
   restartQuiz('pbm');
   restartQuiz('intro');
+  restartQuiz('lc');
 }
 
 function restartQuiz(cat) {
@@ -3886,6 +4345,7 @@ function updateQuizHeader(cat) {
 function renderQuizQuestion(cat) {
   const state = quizState[cat];
   const area = document.getElementById(cat + '-quiz-area');
+  if (!area) return;
 
   if (state.index >= state.order.length) {
     renderQuizEnd(cat);
@@ -3897,7 +4357,7 @@ function renderQuizQuestion(cat) {
 
   area.innerHTML = `
     <div class="quiz-card">
-      <div class="quiz-card-label">${cat === 'pbm' ? '🎯 Donne la problématique de :' : "✍️ Donne l'introduction (ou sa partie générale) de :"}</div>
+      <div class="quiz-card-label">${cat === 'pbm' ? '🎯 Donne la problématique de :' : cat === 'intro' ? '✍️ Donne l\'introduction (ou sa partie générale) de :' : '📚 Réponds à la question :'}</div>
       <div class="quiz-card-target">${item.label}</div>
       <textarea class="quiz-textarea" id="${cat}-quiz-input" placeholder="Écris ta réponse ici…"></textarea>
       <div class="quiz-buttons">
@@ -3908,7 +4368,6 @@ function renderQuizQuestion(cat) {
     </div>
   `;
 
-  // Permet de valider avec Ctrl+Entrée
   const ta = document.getElementById(cat + '-quiz-input');
   ta.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
@@ -3927,7 +4386,6 @@ function submitQuizAnswer(cat) {
   const userText = ta.value;
   const feedback = document.getElementById(cat + '-quiz-feedback');
 
-  // Déjà répondu à cette question ? (évite double comptage si on reclique)
   if (ta.disabled) return;
 
   const isExactMatch = normalize(userText) === normalize(item.text);
@@ -3943,11 +4401,10 @@ function submitQuizAnswer(cat) {
     updateQuizHeader(cat);
     setTimeout(() => { state.index++; renderQuizQuestion(cat); updateQuizHeader(cat); }, 900);
   } else {
-    // Pas de correspondance stricte : on affiche la réponse attendue et on laisse l'utilisateur juger
     feedback.className = 'quiz-feedback show pending';
     feedback.innerHTML = `
       <div class="quiz-feedback-title">La réponse donnée ne correspond pas parfaitement à la réponse attendue.</div>
-      <span class="quiz-expected-label">Réponse attendue</span>
+      <span class="quiz-expected-label">Éléments de réponse attendus</span>
       <div class="quiz-expected-text">${item.text}</div>
       <div class="quiz-self-judge">
         <span>Ta réponse était-elle correcte sur le fond ?</span>
@@ -3975,7 +4432,7 @@ function judgeQuizAnswer(cat, isCorrect) {
     feedback.className = 'quiz-feedback show auto-incorrect';
     feedback.innerHTML = `
       <div class="quiz-feedback-title">❌ Réponse jugée incorrecte.</div>
-      <span class="quiz-expected-label">Réponse attendue</span>
+      <span class="quiz-expected-label">Éléments de réponse attendus</span>
       <div class="quiz-expected-text">${item.text}</div>
     `;
   }
@@ -3997,6 +4454,7 @@ function skipQuizQuestion(cat) {
 function renderQuizEnd(cat) {
   const state = quizState[cat];
   const area = document.getElementById(cat + '-quiz-area');
+  if (!area) return;
   const pct = state.total > 0 ? Math.round((state.score / state.total) * 100) : 0;
 
   const recapHtml = state.recap.map(r => `
@@ -4006,22 +4464,27 @@ function renderQuizEnd(cat) {
     </div>
   `).join('');
 
+  const totalQ = state.order.length;
   area.innerHTML = `
     <div class="quiz-card quiz-end-card">
       <div class="quiz-end-score">${state.score} / ${state.total}</div>
-      <div class="quiz-end-label">${pct}% de réussite — ${cat === 'pbm' ? '16 problématiques' : '8 introductions'} passées en revue</div>
+      <div class="quiz-end-label">${pct}% de réussite — ${totalQ} ${cat === 'lc' ? 'questions' : 'éléments'} passés en revue</div>
       <button class="quiz-action-btn primary" onclick="restartQuiz('${cat}')">↻ Recommencer dans un nouvel ordre</button>
       <div class="quiz-recap-list">${recapHtml}</div>
     </div>
   `;
 }
 
-// ----- Switch Lecture / Quiz -----
+// ----- Switch Lecture / Quiz pour les pages (générique) -----
 function setMode(cat, mode, btn) {
-  document.getElementById(cat + '-mode-lecture').classList.toggle('active', mode === 'lecture');
-  document.getElementById(cat + '-mode-quiz').classList.toggle('active', mode === 'quiz');
-  btn.parentElement.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  const lectureEl = document.getElementById(cat + '-mode-lecture');
+  const quizEl = document.getElementById(cat + '-mode-quiz');
+  if (lectureEl) lectureEl.classList.toggle('active', mode === 'lecture');
+  if (quizEl) quizEl.classList.toggle('active', mode === 'quiz');
+  if (btn && btn.parentElement) {
+    btn.parentElement.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
 }
 </script>
 
