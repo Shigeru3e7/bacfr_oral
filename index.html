@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -856,6 +858,94 @@ td em { color: var(--gold2); font-style: italic; }
    STYLES SPÉCIFIQUES LECTURE CURSIVE
    =================================================================== */
 /* déjà largement couvert par les styles existants */
+
+/* ===================================================================
+   QUIZ DES MOUVEMENTS — apprentissage actif du plan des 16 textes
+   (réutilise au maximum les composants existants : quiz-card,
+    quiz-textarea, mvt-card, mvt-grid, decoupage-card, quiz-recap…)
+   =================================================================== */
+.mvt-quiz-field { margin-bottom: 1.1rem; }
+.mvt-quiz-field label {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.45rem;
+}
+.mvt-count-input {
+  width: 100%;
+  max-width: 110px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.6rem 0.85rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+.mvt-count-input:focus { outline: none; border-color: var(--gold); }
+
+.mvt-correction { margin-top: 1.25rem; }
+.mvt-correction-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+.mvt-proc-list { list-style: none; padding: 0; margin: 0; }
+.mvt-proc-list li {
+  font-size: 0.82rem;
+  color: var(--text2);
+  line-height: 1.55;
+  padding-left: 0.95rem;
+  position: relative;
+}
+.mvt-proc-list li::before {
+  content: "•";
+  color: var(--gold);
+  position: absolute;
+  left: 0;
+}
+
+/* Flash Recall */
+.flash-stage {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.flash-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.85rem;
+}
+.flash-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  color: var(--text);
+  line-height: 1.2;
+}
+.flash-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text3);
+  letter-spacing: 0.04em;
+  margin-top: 1.25rem;
+}
+.flash-answer { text-align: left; margin-top: 1.75rem; display: none; }
+.flash-answer.show { display: block; animation: mvtFadeIn 0.2s ease; }
+@keyframes mvtFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+.flash-buttons { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -872,6 +962,7 @@ td em { color: var(--gold2); font-style: italic; }
     <div class="nav-item active" onclick="showPage('accueil')"><span class="nav-icon">🏠</span> Accueil</div>
     <div class="nav-item" onclick="showPage('introductions')"><span class="nav-icon">✍️</span> Introductions</div>
     <div class="nav-item" onclick="showPage('problematiques')"><span class="nav-icon">🧭</span> Problématiques</div>
+    <div class="nav-item" onclick="showPage('mouvements')"><span class="nav-icon">🧩</span> Mouvements</div>
     <div class="nav-item" onclick="showPage('grammaire')"><span class="nav-icon">📘</span> Grammaire</div>
     <div class="nav-item" onclick="showPage('lecturecursive')"><span class="nav-icon">📚</span> Lecture cursive</div>
   </div>
@@ -1184,7 +1275,56 @@ td em { color: var(--gold2); font-style: italic; }
       <div class="quiz-score" id="pbm-quiz-score">Score : 0 / 0</div>
       <button class="quiz-restart-btn" onclick="restartQuiz('pbm')">↻ Recommencer (ordre aléatoire)</button>
     </div>
-    <div id="pbm-quiz-area"></div>
+  <div id="pbm-quiz-area"></div>
+  </div>
+
+</div>
+
+<!-- ==================== MOUVEMENTS ==================== -->
+<div class="page" id="page-mouvements">
+  <h1><em>Mouvements</em></h1>
+  <p class="subtitle">PLAN DES 16 TEXTES · APPRENTISSAGE ACTIF</p>
+
+  <div class="mode-switch">
+    <button class="mode-btn active" onclick="setMvtMode('lecture',this)">📖 Lecture</button>
+    <button class="mode-btn" onclick="setMvtMode('quiz',this)">🧠 Quiz</button>
+    <button class="mode-btn" onclick="setMvtMode('flash',this)">⚡ Flash Recall</button>
+  </div>
+
+  <!-- MODE LECTURE -->
+  <div class="quiz-mode active" id="mvt-mode-lecture">
+    <div class="callout callout-info">
+      <span class="callout-icon">ℹ</span>
+      <div>Pour chaque texte : le <strong>découpage en mouvements</strong>, leurs <strong>lignes</strong> et leur <strong>idée générale</strong>. C'est le squelette à reconstruire de mémoire avant l'oral — entraîne-toi ensuite avec le mode <strong>Quiz</strong> puis révise-le en accéléré avec <strong>Flash Recall</strong>.</div>
+    </div>
+    <div id="mvt-lecture-area"></div>
+  </div>
+
+  <!-- MODE QUIZ -->
+  <div class="quiz-mode" id="mvt-mode-quiz">
+    <div class="callout callout-gold">
+      <span class="callout-icon">★</span>
+      <div>Reconstruis le plan <strong>avant</strong> de regarder. Indique le nombre de mouvements, décris-les dans l'ordre, puis vérifie avec la correction. Personne ne te corrige les mots : c'est <strong>toi</strong> qui juges si tu avais retrouvé l'essentiel.</div>
+    </div>
+    <div class="quiz-setup">
+      <div class="quiz-progress" id="mvt-quiz-progress">Question 1 / 16</div>
+      <div class="quiz-score" id="mvt-quiz-score">Score : 0 / 0</div>
+      <button class="quiz-restart-btn" onclick="restartMvtQuiz()">↻ Recommencer (ordre aléatoire)</button>
+    </div>
+    <div id="mvt-quiz-area"></div>
+  </div>
+
+  <!-- MODE FLASH RECALL -->
+  <div class="quiz-mode" id="mvt-mode-flash">
+    <div class="callout callout-info">
+      <span class="callout-icon">⚡</span>
+      <div>Le texte apparaît seul. Récite mentalement les <strong>mouvements</strong>, leur <strong>idée</strong> et les <strong>procédés</strong>, puis clique sur <strong>Afficher</strong> pour vérifier. Enchaîne avec <strong>Suivant</strong> : les 16 textes en moins de 10 minutes.</div>
+    </div>
+    <div class="quiz-setup">
+      <div class="quiz-progress" id="mvt-flash-progress">Texte 1 / 16</div>
+      <button class="quiz-restart-btn" onclick="restartFlash()">↻ Mélanger</button>
+    </div>
+    <div id="mvt-flash-area"></div>
   </div>
 
 </div>
@@ -4229,6 +4369,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('submenu-poesie').classList.add('open');
   document.getElementById('parent-poesie').classList.add('open');
   initQuizzes();
+  initMvt();
 });
 
 /* =====================================================================
@@ -4485,6 +4626,369 @@ function setMode(cat, mode, btn) {
     btn.parentElement.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   }
+}
+
+/* =====================================================================
+   MOUVEMENTS — plan des 16 textes (Lecture / Quiz / Flash Recall)
+   Données issues du découpage et de l'analyse linéaire des fiches.
+   Procédés volontairement limités à 2-3 par mouvement (automatisation).
+   ===================================================================== */
+const MOUVEMENTS = {
+  1: { label: "Texte 01 · Baudelaire — Le Joujou du pauvre", mvts: [
+    { lignes: "l. 1-9",  idee: "Baudelaire installe un tableau idéalisé de l'enfant riche, avant de révéler que celui-ci s'en détourne.", procedes: ["champ lexical du luxe", "conditionnel critique", "personnification du joujou"] },
+    { lignes: "l. 9-14", idee: "L'enfant pauvre, décrit avec dégoût, recèle une beauté que seul un œil averti peut percevoir.", procedes: ["rythme ternaire", "sonorités dures [k][f]", "métaphore picturale"] },
+    { lignes: "l. 14-21", idee: "La révélation du jouet du pauvre — un rat vivant — bouleverse la hiérarchie du désir et clôt le texte sur la fraternité.", procedes: ["accélération du rythme", "point d'exclamation", "adverbe « fraternellement »"] },
+  ]},
+  2: { label: "Texte 02 · Rimbaud — Le Dormeur du val", mvts: [
+    { lignes: "v. 1-4",  idee: "Un tableau naturel harmonieux et lumineux installe une atmosphère de paix totale.", procedes: ["personnification", "enjambement", "sonorités [l][m]"] },
+    { lignes: "v. 5-10", idee: "Le soldat apparaît endormi, mais des détails ambigus laissent peu à peu deviner la mort.", procedes: ["champ lexical funèbre voilé", "comparaison", "glaïeuls (fleurs funéraires)"] },
+    { lignes: "v. 11-14", idee: "L'apostrophe à la Nature et la révélation finale transforment rétrospectivement tout le poème.", procedes: ["apostrophe", "couleur rouge contrastée", "chute finale"] },
+  ]},
+  3: { label: "Texte 03 · Rimbaud — Le Buffet", mvts: [
+    { lignes: "v. 1-4",  idee: "Dès l'ouverture, le buffet est comparé à une personne âgée et bienveillante.", procedes: ["personnification", "comparaison « vin vieux »", "champ lexical olfactif"] },
+    { lignes: "v. 5-11", idee: "L'énumération des objets conservés transforme le désordre en trésor de mémoire familiale.", procedes: ["énumération", "répétition", "synesthésie"] },
+    { lignes: "v. 12-14", idee: "La personnification atteint son sommet : le buffet « sait » des histoires qu'il ne peut que bruire.", procedes: ["apostrophe « Ô »", "conditionnel", "écho sonore [k]"] },
+  ]},
+  4: { label: "Texte 04 · Rimbaud — Vénus anadyomène", mvts: [
+    { lignes: "v. 1-4",  idee: "La comparaison avec un cercueil et une vieille baignoire détruit d'emblée l'attente du mythe glorieux.", procedes: ["comparaison dévalorisante", "inversion du mythe", "adjectifs péjoratifs"] },
+    { lignes: "v. 5-11", idee: "L'inventaire méthodique du corps, du haut vers le bas, accumule les détails repoussants avec un réalisme clinique.", procedes: ["structure descriptive haut → bas", "réalisme cru", "déshumanisation"] },
+    { lignes: "v. 12-14", idee: "L'inscription ironique « Clara Venus » et le détail final scatologique portent la provocation à son sommet.", procedes: ["oxymore", "ironie du nom mythologique", "terme tabou final"] },
+  ]},
+  5: { label: "Texte 05 · Balzac — Le Talisman", mvts: [
+    { lignes: "§ 1-2", idee: "Le cadre réaliste s'installe, mais le narrateur pointe déjà l'hypocrisie de l'État qui profite du vice.", procedes: ["ironie du narrateur", "précision temporelle réaliste"] },
+    { lignes: "§ 3",   idee: "Le vieillard inquiétant et le dépôt du chapeau inaugurent un rituel de dépossession progressive.", procedes: ["portrait inquiétant", "questions rhétoriques", "verbe « dépouiller »"] },
+    { lignes: "§ 4",   idee: "Le narrateur affirme que le joueur perd jusqu'à son propre libre arbitre dès qu'il entre dans le jeu.", procedes: ["personnification du Jeu", "énumération accumulative", "impératif solennel"] },
+  ]},
+  6: { label: "Texte 06 · Balzac — La mansarde", mvts: [
+    { lignes: "l. 1-7",   idee: "La mansarde est décrite par une hyperbole négative — mais une faille s'y glisse déjà : la vue sur le ciel.", procedes: ["hyperbole négative", "personnification", "oxymore"] },
+    { lignes: "l. 7-10",  idee: "Contre toute attente, le travail intellectuel devient une source de plaisir intense dans ce lieu misérable.", procedes: ["paradoxe", "métaphore musicale", "comparaison amoureuse"] },
+    { lignes: "l. 10-19", idee: "Pour dire l'indicible plaisir de l'esprit, le narrateur multiplie les comparaisons matérielles, toutes jugées insuffisantes.", procedes: ["vocabulaire mystique", "anaphore « quand »"] },
+  ]},
+  7: { label: "Texte 07 · Balzac — L'Agonie", mvts: [
+    { lignes: "début",  idee: "Une pensée soudaine révèle à Raphaël que le pouvoir, même illimité, ne suffit pas à le faire grandir.", procedes: ["oxymore", "discours indirect libre", "maxime générale"] },
+    { lignes: "milieu", idee: "Raphaël découvre que la société le rejette autant qu'il la rejette désormais.", procedes: ["comparaison animale", "champ lexical du rejet"] },
+    { lignes: "fin",    idee: "Raphaël cherche dans la nature sauvage une paix stoïcienne, loin des désirs destructeurs.", procedes: ["paysage-état d'âme romantique", "énumération apaisée"] },
+  ]},
+  8: { label: "Texte 08 · Zola — L'Assommoir", mvts: [
+    { lignes: "début",  idee: "Gervaise sombre dans une indifférence totale qui ressemble à une mort intérieure.", procedes: ["style indirect libre", "registre familier", "verbe « s'enfonçait »"] },
+    { lignes: "milieu", idee: "La boutique s'écroule progressivement, comme un corps malade qui se décompose.", procedes: ["métaphore organique", "rythme répétitif", "énumération nominative"] },
+    { lignes: "fin",    idee: "Gervaise ne garde plus que les clientes les plus misérables et se retrouve seule avec son apprentie.", procedes: ["registre familier", "métaphore du plongeon", "sensation olfactive"] },
+  ]},
+  9: { label: "Texte 09 · Corneille — Le Menteur, Acte I sc. 1", mvts: [
+    { lignes: "v. 1-8",   idee: "Dorante, in medias res, expose son passage de la robe à l'épée et son inquiétude de paraître un cavalier accompli.", procedes: ["double énonciation", "rime antithétique", "unité de lieu posée"] },
+    { lignes: "v. 9-14",  idee: "Cliton répond par une flatterie excessive, révélant le ressort comique classique du valet hypocrite.", procedes: ["hyperbole", "tutoiement/vouvoiement asymétrique"] },
+    { lignes: "v. 15-26", idee: "Dorante révèle naïvement son obsession de séduction ; Cliton devient le censeur moral de son maître.", procedes: ["métaphore alimentaire", "anachronisme burlesque", "inversion hiérarchique"] },
+  ]},
+  10: { label: "Texte 10 · Corneille — Le Menteur, Acte III sc. 5", mvts: [
+    { lignes: "début",  idee: "La didascalie place les femmes en haut, en position de spectatrices privilégiées de leur propre séduction.", procedes: ["verticalité scénique", "double énonciation", "ironie dramatique"] },
+    { lignes: "milieu", idee: "Dorante multiplie les hyperboles galantes — adressées par erreur à Clarice.", procedes: ["hyperbole amoureuse", "rimes fermées", "rhétorique cornélienne parodiée"] },
+    { lignes: "fin",    idee: "Les apartés de Clarice et Lucrèce commentent et jugent Dorante en direct, doublant le spectacle.", procedes: ["aparté", "champ lexical de la fourberie"] },
+  ]},
+  11: { label: "Texte 11 · Corneille — Le Menteur, Acte V sc. 2-3", mvts: [
+    { lignes: "scène 2",     idee: "Géront s'exclame contre lui-même et son fils : il a été trompé, et trompé par lui-même malgré lui.", procedes: ["anaphore exclamative", "répétition « fourbe »", "registre pathétique"] },
+    { lignes: "sc. 3 début", idee: "Géront interroge directement Dorante sur sa noblesse, qui se défend par la seule filiation.", procedes: ["question rhétorique", "dialogue tranchant"] },
+    { lignes: "sc. 3 fin",   idee: "Géront démontre par une argumentation symétrique que la vertu seule fonde et peut retirer la noblesse.", procedes: ["symétrie rhétorique", "sentence morale", "paradoxe"] },
+  ]},
+  12: { label: "Texte 12 · Beaumarchais — Le Mariage de Figaro", mvts: [
+    { lignes: "début",  idee: "Marceline reconnaît ses fautes mais retourne la culpabilité vers les séducteurs et la société.", procedes: ["didascalie « s'échauffant »", "métaphore militaire", "question rhétorique"] },
+    { lignes: "milieu", idee: "Marceline s'adresse à tous les hommes et dénonce l'exclusion économique des femmes.", procedes: ["apostrophe au pluriel", "question rhétorique"] },
+    { lignes: "fin",    idee: "Le chiasme final cristallise l'injustice, et même les hommes de la scène sont contraints d'y adhérer.", procedes: ["chiasme", "registre exalté", "réplique chorale"] },
+  ]},
+  13: { label: "Texte 13 · Graffigny — Lettres d'une Péruvienne, Lettre première", mvts: [
+    { lignes: "§ 1-2", idee: "L'apostrophe lyrique à Aza ouvre la lettre sur l'impuissance totale de la communication à distance.", procedes: ["apostrophe lyrique", "métaphore de la vapeur", "anaphore « en vain »"] },
+    { lignes: "§ 3-4", idee: "Zilia désigne les Européens comme « Nation barbare » — renversement total du stéréotype colonial.", procedes: ["antithèse", "renversement du stéréotype", "gradation des pertes"] },
+    { lignes: "§ 5-6", idee: "L'isolement de Zilia s'aggrave et son réquisitoire s'élargit à une question universelle sur l'humanité.", procedes: ["questions rhétoriques", "personnification de la nature", "exclamation finale"] },
+  ]},
+  14: { label: "Texte 14 · Montesquieu — Lettres persanes, Lettre 161", mvts: [
+    { lignes: "début",  idee: "Roxane renverse d'emblée les rôles : c'est elle qui accuse, et révèle avoir subverti le sérail de l'intérieur.", procedes: ["accumulation", "ironie triomphante", "marqueurs épistolaires réalistes"] },
+    { lignes: "milieu", idee: "Roxane oppose sa liberté intérieure permanente aux « caprices » arbitraires de son tyran domestique.", procedes: ["construction adversative", "anaphore « de ce que »", "symétrie lapidaire"] },
+    { lignes: "fin",    idee: "La syntaxe se fragmente à mesure que le poison agit, mais Roxane meurt en pleine maîtrise de son discours.", procedes: ["fragmentation syntaxique", "antithèse amour/haine", "formule littéraire finale"] },
+  ]},
+  15: { label: "Texte 15 · Graffigny — Lettres d'une Péruvienne, Lettre 31", mvts: [
+    { lignes: "l. 1-4",   idee: "Zilia s'exprime depuis une position d'extériorité qui lui confère objectivité et impartialité.", procedes: ["topos du regard étranger", "euphémisme ironique"] },
+    { lignes: "l. 5-12",  idee: "Le paradoxe central est énoncé : les hommes respectent et méprisent les femmes avec un égal excès.", procedes: ["antithèse", "parenthèse ironique", "énumération de verbes"] },
+    { lignes: "l. 13-20", idee: "La simplicité des lois péruviennes contraste implicitement avec l'injustice des lois françaises envers les femmes.", procedes: ["satire par l'implicite", "parallélisme de classes sociales"] },
+  ]},
+  16: { label: "Texte 16 · Graffigny — Lettres d'une Péruvienne, Lettre 20", mvts: [
+    { lignes: "l. 1-7",   idee: "Graffigny montre que même les nobles sont victimes d'un système fondé sur l'apparence plutôt que la réalité.", procedes: ["chiasme", "distance ironique « ce qu'on appelle »", "hyperbole"] },
+    { lignes: "l. 8-15",  idee: "Par une démonstration rigoureuse, Zilia prouve que le système social français est une impasse irrationnelle.", procedes: ["anaphore « Sans »", "raisonnement logique", "référence au droit naturel"] },
+    { lignes: "l. 16-26", idee: "Zilia s'inclut elle-même parmi les exclus du système, rendant la critique concrète et incarnée.", procedes: ["anaphore « ni »", "question rhétorique lyrique", "concessives « Quoique »"] },
+  ]},
+};
+
+const ROMAINS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+
+// ----- Switch Lecture / Quiz / Flash Recall (3 modes) -----
+function setMvtMode(mode, btn) {
+  ['lecture', 'quiz', 'flash'].forEach(m => {
+    const el = document.getElementById('mvt-mode-' + m);
+    if (el) el.classList.toggle('active', m === mode);
+  });
+  if (btn && btn.parentElement) {
+    btn.parentElement.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
+
+// ----- Bloc de correction réutilisable (Quiz + Flash) : réutilise mvt-card / mvt-grid -----
+function buildMvtCorrection(key) {
+  const item = MOUVEMENTS[key];
+  const cards = item.mvts.map((m, i) => `
+    <div class="mvt-card">
+      <div class="mvt-card-head">
+        <span class="mvt-title">Mouvement ${ROMAINS[i]}</span>
+        <span class="mvt-lignes">${m.lignes}</span>
+      </div>
+      <div class="mvt-idee">${m.idee}</div>
+      <div>
+        <span class="mvt-rub-label">Procédés essentiels</span>
+        <ul class="mvt-proc-list">${m.procedes.map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `).join('');
+  return `<div class="mvt-grid">${cards}</div>`;
+}
+
+// ===== MODE LECTURE : rendu des 16 textes (réutilise intro-item + decoupage-grid) =====
+function renderMvtLecture() {
+  const area = document.getElementById('mvt-lecture-area');
+  if (!area) return;
+  area.innerHTML = Object.keys(MOUVEMENTS).map(Number).map(key => {
+    const item = MOUVEMENTS[key];
+    const cards = item.mvts.map((m, i) => `
+      <div class="decoupage-card">
+        <div class="dc-num">Mouvement ${ROMAINS[i]}</div>
+        <div class="dc-lignes">${m.lignes}</div>
+        <div class="dc-resume">${m.idee}</div>
+      </div>
+    `).join('');
+    return `
+      <div class="intro-item">
+        <div class="intro-item-head">
+          <span class="intro-item-title">${item.label}</span>
+        </div>
+        <div class="decoupage-grid">${cards}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ===== MODE QUIZ =====
+const mvtQuiz = { order: [], index: 0, score: 0, total: 0, recap: [] };
+
+function initMvt() {
+  renderMvtLecture();
+  restartMvtQuiz();
+  restartFlash();
+}
+
+function restartMvtQuiz() {
+  mvtQuiz.order = shuffle(Object.keys(MOUVEMENTS).map(Number));
+  mvtQuiz.index = 0;
+  mvtQuiz.score = 0;
+  mvtQuiz.total = 0;
+  mvtQuiz.recap = [];
+  renderMvtQuestion();
+  updateMvtHeader();
+}
+
+function updateMvtHeader() {
+  const n = mvtQuiz.order.length;
+  const progressEl = document.getElementById('mvt-quiz-progress');
+  const scoreEl = document.getElementById('mvt-quiz-score');
+  const displayIndex = Math.min(mvtQuiz.index + 1, n);
+  if (progressEl) progressEl.textContent = mvtQuiz.index >= n ? `Terminé (${n}/${n})` : `Question ${displayIndex} / ${n}`;
+  if (scoreEl) scoreEl.textContent = `Score : ${mvtQuiz.score} / ${mvtQuiz.total}`;
+}
+
+function renderMvtQuestion() {
+  const area = document.getElementById('mvt-quiz-area');
+  if (!area) return;
+
+  if (mvtQuiz.index >= mvtQuiz.order.length) {
+    renderMvtEnd();
+    return;
+  }
+
+  const key = mvtQuiz.order[mvtQuiz.index];
+  const item = MOUVEMENTS[key];
+
+  area.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-card-label">🧩 Reconstruis le plan de :</div>
+      <div class="quiz-card-target">${item.label}</div>
+
+      <div class="mvt-quiz-field">
+        <label for="mvt-count">Combien de mouvements comporte ce texte ?</label>
+        <input type="text" inputmode="numeric" class="mvt-count-input" id="mvt-count" placeholder="ex : 3" autocomplete="off">
+      </div>
+
+      <div class="mvt-quiz-field">
+        <label for="mvt-desc">Décris les mouvements dans l'ordre (lignes · idée · procédés)</label>
+        <textarea class="quiz-textarea" id="mvt-desc" placeholder="Mouvement I :&#10;...&#10;&#10;Mouvement II :&#10;...&#10;&#10;Mouvement III :&#10;..."></textarea>
+      </div>
+
+      <div class="quiz-buttons">
+        <button class="quiz-action-btn primary" onclick="showMvtCorrection()">Voir la correction</button>
+        <button class="quiz-action-btn" onclick="skipMvtQuestion()">Passer ce texte →</button>
+      </div>
+      <div class="quiz-feedback" id="mvt-quiz-feedback"></div>
+    </div>
+  `;
+  const cnt = document.getElementById('mvt-count');
+  if (cnt) cnt.focus();
+}
+
+function showMvtCorrection() {
+  const key = mvtQuiz.order[mvtQuiz.index];
+  const item = MOUVEMENTS[key];
+  const feedback = document.getElementById('mvt-quiz-feedback');
+  if (!feedback || feedback.classList.contains('show')) return;
+
+  feedback.className = 'quiz-feedback show pending';
+  feedback.innerHTML = `
+    <div class="quiz-feedback-title">Correction — ${item.mvts.length} mouvements</div>
+    <div class="mvt-correction">
+      <div class="mvt-correction-title">Plan attendu</div>
+      ${buildMvtCorrection(key)}
+    </div>
+    <div class="quiz-self-judge">
+      <span>Avais-tu retrouvé l'essentiel (nombre, découpage, idées) ?</span>
+      <button class="quiz-judge-btn quiz-judge-yes" onclick="judgeMvt(true)">✅ Oui</button>
+      <button class="quiz-judge-btn quiz-judge-no" onclick="judgeMvt(false)">❌ Non</button>
+    </div>
+  `;
+  const desc = document.getElementById('mvt-desc');
+  const cnt = document.getElementById('mvt-count');
+  if (desc) desc.disabled = true;
+  if (cnt) cnt.disabled = true;
+}
+
+function judgeMvt(isCorrect) {
+  const key = mvtQuiz.order[mvtQuiz.index];
+  const item = MOUVEMENTS[key];
+  const feedback = document.getElementById('mvt-quiz-feedback');
+
+  mvtQuiz.total++;
+  if (isCorrect) {
+    mvtQuiz.score++;
+    mvtQuiz.recap.push({ label: item.label, ok: true });
+    if (feedback) {
+      feedback.className = 'quiz-feedback show auto-correct';
+      feedback.innerHTML = `<div class="quiz-feedback-title">✅ Plan retrouvé.</div>`;
+    }
+  } else {
+    mvtQuiz.recap.push({ label: item.label, ok: false });
+    if (feedback) {
+      feedback.className = 'quiz-feedback show auto-incorrect';
+      feedback.innerHTML = `<div class="quiz-feedback-title">❌ À retravailler.</div>`;
+    }
+  }
+  updateMvtHeader();
+  setTimeout(() => { mvtQuiz.index++; renderMvtQuestion(); updateMvtHeader(); }, 1000);
+}
+
+function skipMvtQuestion() {
+  const key = mvtQuiz.order[mvtQuiz.index];
+  const item = MOUVEMENTS[key];
+  mvtQuiz.total++;
+  mvtQuiz.recap.push({ label: item.label, ok: false });
+  mvtQuiz.index++;
+  updateMvtHeader();
+  renderMvtQuestion();
+}
+
+function renderMvtEnd() {
+  const area = document.getElementById('mvt-quiz-area');
+  if (!area) return;
+  const pct = mvtQuiz.total > 0 ? Math.round((mvtQuiz.score / mvtQuiz.total) * 100) : 0;
+  const reussis = mvtQuiz.recap.filter(r => r.ok);
+  const aRevoir = mvtQuiz.recap.filter(r => !r.ok);
+
+  const listHtml = (arr, ok) => arr.length ? arr.map(r => `
+    <div class="quiz-recap-item ${ok ? 'ok' : 'ko'}">
+      <span class="qr-icon ${ok ? 'ok-icon' : 'ko-icon'}">${ok ? '✅' : '❌'}</span>
+      <span>${r.label}</span>
+    </div>`).join('') : `<p style="font-size:0.82rem;color:var(--text3);">Aucun.</p>`;
+
+  area.innerHTML = `
+    <div class="quiz-card quiz-end-card">
+      <div class="quiz-end-score">${mvtQuiz.score} / ${mvtQuiz.total}</div>
+      <div class="quiz-end-label">${pct}% des plans retrouvés — ${mvtQuiz.order.length} textes passés en revue</div>
+      <button class="quiz-action-btn primary" onclick="restartMvtQuiz()">↻ Recommencer dans un nouvel ordre</button>
+      <div style="text-align:left;margin-top:1.75rem;">
+        <span class="mvt-correction-title">✅ Textes réussis (${reussis.length})</span>
+        <div class="quiz-recap-list" style="margin-top:0.5rem;">${listHtml(reussis, true)}</div>
+      </div>
+      <div style="text-align:left;margin-top:1.5rem;">
+        <span class="mvt-correction-title">❌ Textes à revoir (${aRevoir.length})</span>
+        <div class="quiz-recap-list" style="margin-top:0.5rem;">${listHtml(aRevoir, false)}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ===== MODE FLASH RECALL =====
+const flashState = { order: [], index: 0 };
+
+function restartFlash() {
+  flashState.order = shuffle(Object.keys(MOUVEMENTS).map(Number));
+  flashState.index = 0;
+  renderFlash();
+}
+
+function updateFlashHeader() {
+  const el = document.getElementById('mvt-flash-progress');
+  const n = flashState.order.length;
+  if (el) el.textContent = `Texte ${Math.min(flashState.index + 1, n)} / ${n}`;
+}
+
+function renderFlash() {
+  const area = document.getElementById('mvt-flash-area');
+  if (!area) return;
+
+  if (flashState.index >= flashState.order.length) {
+    area.innerHTML = `
+      <div class="quiz-card quiz-end-card">
+        <div class="quiz-end-score">⚡</div>
+        <div class="quiz-end-label">Les 16 textes sont passés en revue. Prêt pour l'oral !</div>
+        <button class="quiz-action-btn primary" onclick="restartFlash()">↻ Recommencer</button>
+      </div>`;
+    updateFlashHeader();
+    return;
+  }
+
+  const key = flashState.order[flashState.index];
+  const item = MOUVEMENTS[key];
+
+  area.innerHTML = `
+    <div class="flash-stage">
+      <div class="flash-num">${item.label.split(' · ')[0]}</div>
+      <div class="flash-title">${item.label.split(' · ')[1] || item.label}</div>
+      <div class="flash-hint">Récite mentalement les mouvements, leurs idées et les procédés…</div>
+      <div class="flash-answer" id="mvt-flash-answer">
+        <div class="mvt-correction-title">Plan</div>
+        ${buildMvtCorrection(key)}
+      </div>
+    </div>
+    <div class="flash-buttons">
+      <button class="quiz-action-btn primary" id="mvt-flash-reveal" onclick="flashReveal()">Afficher</button>
+      <button class="quiz-action-btn" onclick="flashNext()">Suivant →</button>
+    </div>
+  `;
+  updateFlashHeader();
+}
+
+function flashReveal() {
+  const ans = document.getElementById('mvt-flash-answer');
+  const btn = document.getElementById('mvt-flash-reveal');
+  if (ans) ans.classList.add('show');
+  if (btn) btn.style.display = 'none';
+}
+
+function flashNext() {
+  flashState.index++;
+  renderFlash();
 }
 </script>
 
