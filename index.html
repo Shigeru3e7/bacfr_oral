@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -946,6 +943,97 @@ td em { color: var(--gold2); font-style: italic; }
 .flash-answer.show { display: block; animation: mvtFadeIn 0.2s ease; }
 @keyframes mvtFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 .flash-buttons { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+
+/* ===================================================================
+   QCM DES MOUVEMENTS — reconnaissance rapide (Niveau 1 & 2)
+   (réutilise quiz-card, quiz-card-label/target, quiz-feedback, mvt-card…)
+   =================================================================== */
+.qcm-levels { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+.qcm-level-btn {
+  flex: 1;
+  min-width: 220px;
+  text-align: left;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.qcm-level-btn:hover { border-color: var(--gold); background: var(--bg3); }
+.qcm-level-btn.active { border-color: var(--gold); background: rgba(201,168,76,0.07); }
+.qcm-level-btn .qcm-level-name { display: block; font-weight: 600; font-size: 0.92rem; color: var(--text); margin-bottom: 0.25rem; }
+.qcm-level-btn .qcm-level-desc { display: block; font-size: 0.78rem; color: var(--text3); line-height: 1.45; }
+
+.qcm-target-mvt {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold2);
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 2px;
+  padding: 0.4rem 0.7rem;
+  display: inline-block;
+  margin-bottom: 1.25rem;
+}
+
+.qcm-options { display: flex; flex-direction: column; gap: 0.6rem; }
+.qcm-option {
+  text-align: left;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.85rem 1.1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.86rem;
+  color: var(--text);
+  line-height: 1.5;
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  width: 100%;
+}
+.qcm-option:hover:not(:disabled) { border-color: var(--gold); }
+.qcm-option:disabled { cursor: default; opacity: 0.95; }
+.qcm-option .qcm-letter {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.qcm-option .qcm-opt-body { flex: 1; }
+.qcm-option.correct { border-color: var(--green); background: rgba(39,174,96,0.12); }
+.qcm-option.incorrect { border-color: var(--red); background: rgba(192,57,43,0.12); }
+
+.qcm-plan-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+.qcm-plan-list li { font-size: 0.82rem; color: var(--text2); line-height: 1.45; }
+.qcm-plan-list li .qcm-plan-num { font-family: 'DM Mono', monospace; color: var(--gold); font-size: 0.7rem; margin-right: 0.4rem; }
+
+.qcm-wrong-box {
+  margin-top: 1rem;
+  border: 1px solid rgba(192,57,43,0.3);
+  border-radius: 2px;
+  background: rgba(192,57,43,0.06);
+  padding: 0.9rem 1.1rem;
+}
+.qcm-wrong-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 0.6rem;
+}
+.qcm-wrong-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.qcm-wrong-list li { display: flex; gap: 0.55rem; align-items: flex-start; font-size: 0.82rem; color: var(--text2); line-height: 1.5; }
+.qcm-wrong-list li em { color: var(--text); font-style: italic; }
+.qcm-wrong-mark { color: var(--red); flex-shrink: 0; font-size: 0.8rem; margin-top: 1px; }
 </style>
 </head>
 <body>
@@ -1289,6 +1377,7 @@ td em { color: var(--gold2); font-style: italic; }
     <button class="mode-btn active" onclick="setMvtMode('lecture',this)">📖 Lecture</button>
     <button class="mode-btn" onclick="setMvtMode('quiz',this)">🧠 Quiz</button>
     <button class="mode-btn" onclick="setMvtMode('flash',this)">⚡ Flash Recall</button>
+    <button class="mode-btn" onclick="setMvtMode('qcm',this)">🎯 QCM</button>
   </div>
 
   <!-- MODE LECTURE -->
@@ -1325,6 +1414,20 @@ td em { color: var(--gold2); font-style: italic; }
       <button class="quiz-restart-btn" onclick="restartFlash()">↻ Mélanger</button>
     </div>
     <div id="mvt-flash-area"></div>
+  </div>
+
+  <!-- MODE QCM -->
+  <div class="quiz-mode" id="mvt-mode-qcm">
+    <div class="callout callout-gold">
+      <span class="callout-icon">★</span>
+      <div>Entraîne ta <strong>reconnaissance rapide</strong> des plans. Choisis un niveau, puis identifie la bonne analyse parmi 4 propositions. Les mauvaises réponses sont de <strong>vrais mouvements</strong> issus d'autres textes du <strong>même objet d'étude</strong> : reste vigilant !</div>
+    </div>
+    <div class="quiz-setup">
+      <div class="quiz-progress" id="mvt-qcm-progress">Choisis un niveau</div>
+      <div class="quiz-score" id="mvt-qcm-score">Score : 0 / 0</div>
+      <button class="quiz-restart-btn" onclick="renderQcmSetup()">↻ Changer de niveau</button>
+    </div>
+    <div id="mvt-qcm-area"></div>
   </div>
 
 </div>
@@ -1897,7 +2000,7 @@ td em { color: var(--gold2); font-style: italic; }
         </div>
       </div><div class="mvt-card">
         <div class="mvt-card-head">
-          <span class="mvt-title">II · Le corps disséqué</span>
+          <span class="mvt-title">II �� Le corps disséqué</span>
           <span class="mvt-lignes">v. 5-11</span>
         </div>
         <div class="mvt-idee">L'inventaire méthodique du corps, du haut vers le bas, accumule les détails repoussants avec un réalisme clinique.</div>
@@ -4175,7 +4278,7 @@ td em { color: var(--gold2); font-style: italic; }
   <div class="card">
     <div class="card-label">Présentation orale — 2 à 3 minutes</div>
     <p>Je vais vous présenter <em>Les Châtiments</em>, un recueil de poèmes publié en 1853 par Victor Hugo. Victor Hugo est un écrivain majeur du XIX<sup>e</sup> siècle. Il est à la fois poète, romancier et dramaturge, notamment connu pour <em>Les Misérables</em>, <em>Notre-Dame de Paris</em>, ou encore des pièces comme <em>Hernani</em> et <em>Ruy Blas</em>. Il est souvent associé au mouvement romantique, qui valorise l'expression des sentiments, l'engagement de l'écrivain et la liberté artistique.</p>
-    <p>Victor Hugo est également un écrivain très engagé politiquement et un fervent partisan de la République. Lorsqu'il écrit <em>Les Châtiments</em>, il est en exil sur les îles Anglo-Normandes de Jersey puis de Guernesey, afin d'éviter la répression du régime de Louis-Napoléon Bonaparte après le coup d'État de 1851.</p>
+    <p>Victor Hugo est ����galement un écrivain très engagé politiquement et un fervent partisan de la République. Lorsqu'il écrit <em>Les Châtiments</em>, il est en exil sur les îles Anglo-Normandes de Jersey puis de Guernesey, afin d'éviter la répression du régime de Louis-Napoléon Bonaparte après le coup d'État de 1851.</p>
     <p><em>Les Châtiments</em> est une œuvre de poésie engagée et satirique dans laquelle Hugo dénonce la violence, l'injustice et l'autoritarisme du pouvoir impérial. À travers la satire et la caricature, il attaque directement Louis-Napoléon Bonaparte, qu'il présente comme un tyran illégitime.</p>
     <p>Le recueil est divisé en deux grandes parties, <em>Nox</em> et <em>Lux</em>, qui signifient en latin la nuit et la lumière. <em>Nox</em> symbolise l'obscurité, la violence et l'oppression du Second Empire, tandis que <em>Lux</em> représente l'espoir, la justice et la foi dans l'avenir.</p>
     <p>À travers ces poèmes, Hugo donne à la poésie un rôle politique et moral : il l'utilise comme une arme pour condamner le régime, défendre les valeurs républicaines et inscrire son combat dans l'Histoire.</p>
@@ -4720,7 +4823,7 @@ const ROMAINS = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
 // ----- Switch Lecture / Quiz / Flash Recall (3 modes) -----
 function setMvtMode(mode, btn) {
-  ['lecture', 'quiz', 'flash'].forEach(m => {
+  ['lecture', 'quiz', 'flash', 'qcm'].forEach(m => {
     const el = document.getElementById('mvt-mode-' + m);
     if (el) el.classList.toggle('active', m === mode);
   });
@@ -4780,6 +4883,7 @@ function initMvt() {
   renderMvtLecture();
   restartMvtQuiz();
   restartFlash();
+  initQcm();
 }
 
 function restartMvtQuiz() {
@@ -4989,6 +5093,329 @@ function flashReveal() {
 function flashNext() {
   flashState.index++;
   renderFlash();
+}
+
+/* =====================================================================
+   QCM DES MOUVEMENTS — reconnaissance rapide (Niveau 1 & 2)
+   Recombine UNIQUEMENT de vrais mouvements existants (MOUVEMENTS),
+   en restant dans le même objet d'étude (FICHE_GENRE → poesie / roman /
+   theatre / idees). Aucune formulation inventée.
+   ===================================================================== */
+const OBJET_LABEL = { poesie: 'Poésie', roman: 'Roman', theatre: 'Théâtre', idees: "Littérature d'idées" };
+const QCM_LETTERS = ['A', 'B', 'C', 'D'];
+
+// Clés des textes appartenant au même objet d'étude
+function qcmTextesParObjet(objet) {
+  return Object.keys(MOUVEMENTS).map(Number).filter(k => FICHE_GENRE[k] === objet);
+}
+
+const qcmState = { level: null, order: [], index: 0, score: 0, total: 0, answered: false };
+
+function initQcm() {
+  renderQcmSetup();
+}
+
+// Écran de choix du niveau
+function renderQcmSetup() {
+  qcmState.level = null;
+  qcmState.order = [];
+  qcmState.index = 0;
+  qcmState.score = 0;
+  qcmState.total = 0;
+  qcmState.answered = false;
+  const area = document.getElementById('mvt-qcm-area');
+  if (!area) return;
+  area.innerHTML = `
+    <div class="qcm-levels">
+      <button class="qcm-level-btn" onclick="startQcm('n1', this)">
+        <span class="qcm-level-name">🟢 Niveau 1 — Mouvement seul</span>
+        <span class="qcm-level-desc">Un texte, un mouvement (I, II, III…) : retrouve l'idée correcte parmi 4 propositions.</span>
+      </button>
+      <button class="qcm-level-btn" onclick="startQcm('n2', this)">
+        <span class="qcm-level-name">🔴 Niveau 2 — Plan complet</span>
+        <span class="qcm-level-desc">Un texte : retrouve le plan complet (tous les mouvements) parmi 4 propositions.</span>
+      </button>
+    </div>
+  `;
+  updateQcmHeader();
+}
+
+function startQcm(level, btn) {
+  qcmState.level = level;
+  qcmState.index = 0;
+  qcmState.score = 0;
+  qcmState.total = 0;
+  qcmState.answered = false;
+
+  if (level === 'n1') {
+    // toutes les paires (texte, mouvement), mélangées
+    const pairs = [];
+    Object.keys(MOUVEMENTS).map(Number).forEach(k => {
+      MOUVEMENTS[k].mvts.forEach((m, i) => pairs.push({ key: k, mvt: i }));
+    });
+    qcmState.order = shuffle(pairs).slice(0, 12);
+  } else {
+    qcmState.order = shuffle(Object.keys(MOUVEMENTS).map(Number)).map(k => ({ key: k }));
+  }
+  renderQcmQuestion();
+  updateQcmHeader();
+}
+
+function updateQcmHeader() {
+  const progressEl = document.getElementById('mvt-qcm-progress');
+  const scoreEl = document.getElementById('mvt-qcm-score');
+  if (!qcmState.level) {
+    if (progressEl) progressEl.textContent = 'Choisis un niveau';
+    if (scoreEl) scoreEl.textContent = 'Score : 0 / 0';
+    return;
+  }
+  const n = qcmState.order.length;
+  const displayIndex = Math.min(qcmState.index + 1, n);
+  if (progressEl) progressEl.textContent = qcmState.index >= n ? `Terminé (${n}/${n})` : `Question ${displayIndex} / ${n}`;
+  if (scoreEl) scoreEl.textContent = `Score : ${qcmState.score} / ${qcmState.total}`;
+}
+
+function renderQcmQuestion() {
+  const area = document.getElementById('mvt-qcm-area');
+  if (!area) return;
+  if (qcmState.index >= qcmState.order.length) { renderQcmEnd(); return; }
+  qcmState.answered = false;
+  if (qcmState.level === 'n1') renderQcmN1();
+  else renderQcmN2();
+}
+
+// ----- Niveau 1 : un mouvement isolé -----
+function renderQcmN1() {
+  const area = document.getElementById('mvt-qcm-area');
+  const q = qcmState.order[qcmState.index];
+  const item = MOUVEMENTS[q.key];
+  const objet = FICHE_GENRE[q.key];
+  const correctMvt = item.mvts[q.mvt];
+
+  // 1) distracteur "proche" : un AUTRE mouvement du MÊME texte (le piège le plus fort)
+  //    On conserve l'origine (texte + n° de mouvement) pour l'expliquer en correction.
+  const samePool = item.mvts
+    .map((m, i) => ({ idee: m.idee, label: item.label, num: i, meme: true }))
+    .filter((o, i) => i !== q.mvt && o.idee !== correctMvt.idee);
+
+  // 2) distracteurs "du même genre" : vrais mouvements d'AUTRES textes du même objet d'étude
+  let otherPool = [];
+  qcmTextesParObjet(objet).forEach(k => {
+    if (k === q.key) return;
+    MOUVEMENTS[k].mvts.forEach((m, i) => otherPool.push({ idee: m.idee, label: MOUVEMENTS[k].label, num: i, meme: false }));
+  });
+
+  // tirage aléatoire : on vise 1 distracteur du même texte + 2 du même genre,
+  // avec repli si le texte n'a pas assez de mouvements.
+  const used = new Set([correctMvt.idee]);
+  const dedup = arr => arr.filter(o => { if (used.has(o.idee)) return false; used.add(o.idee); return true; });
+  const fromSame = shuffle(dedup(samePool));
+  const fromOther = shuffle(dedup(otherPool));
+
+  const chosen = [];
+  // au moins un "proche" si disponible (sinon on complétera avec le même genre)
+  if (fromSame.length) chosen.push(fromSame.shift());
+  // on complète jusqu'à 3 distracteurs en piochant au hasard dans les deux réservoirs
+  const blend = shuffle([...fromSame, ...fromOther]);
+  for (const o of blend) {
+    if (chosen.length >= 3) break;
+    chosen.push(o);
+  }
+
+  const options = shuffle([
+    { text: correctMvt.idee, correct: true, label: item.label, num: q.mvt, meme: true },
+    ...chosen.slice(0, 3).map(o => ({ text: o.idee, correct: false, label: o.label, num: o.num, meme: o.meme })),
+  ]);
+
+  // on mémorise les options pour la correction
+  qcmState.currentOptions = options;
+
+  const optHtml = options.map((o, i) => `
+    <button class="qcm-option" data-correct="${o.correct}" data-idx="${i}" onclick="answerQcm(this)">
+      <span class="qcm-letter">${QCM_LETTERS[i]}</span>
+      <span class="qcm-opt-body">${o.text}</span>
+    </button>
+  `).join('');
+
+  area.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-card-label">🎯 ${OBJET_LABEL[objet]} · Quelle est l'idée de ce mouvement ?</div>
+      <div class="quiz-card-target">${item.label}</div>
+      <span class="qcm-target-mvt">Mouvement ${ROMAINS[q.mvt]} · ${correctMvt.lignes}</span>
+      <div class="qcm-options">${optHtml}</div>
+      <div class="quiz-feedback" id="mvt-qcm-feedback"></div>
+    </div>
+  `;
+}
+
+// ----- Niveau 2 : plan complet -----
+function renderQcmN2() {
+  const area = document.getElementById('mvt-qcm-area');
+  const q = qcmState.order[qcmState.index];
+  const item = MOUVEMENTS[q.key];
+  const objet = FICHE_GENRE[q.key];
+  const count = item.mvts.length;
+
+  // bonne réponse : le vrai plan (idées dans l'ordre)
+  const correctPlan = item.mvts.map(m => m.idee);
+
+  // pool de vrais mouvements d'AUTRES textes du même objet d'étude (avec origine)
+  let pool = [];
+  const seen = new Set(correctPlan);
+  qcmTextesParObjet(objet).forEach(k => {
+    if (k === q.key) return;
+    MOUVEMENTS[k].mvts.forEach((m, i) => {
+      if (seen.has(m.idee)) return;
+      seen.add(m.idee);
+      pool.push({ idee: m.idee, label: MOUVEMENTS[k].label, num: i });
+    });
+  });
+
+  // 3 faux plans crédibles : count vrais mouvements recombinés
+  const fakePlans = [];
+  let guard = 0;
+  while (fakePlans.length < 3 && guard < 60) {
+    guard++;
+    const plan = shuffle(pool).slice(0, count);
+    if (plan.length < count) break;
+    const sig = plan.map(o => o.idee).join('|');
+    if (sig === correctPlan.join('|')) continue;
+    if (fakePlans.some(fp => fp.map(o => o.idee).join('|') === sig)) continue;
+    fakePlans.push(plan);
+  }
+
+  const options = shuffle([
+    { plan: correctPlan.map((idee, j) => ({ idee, label: item.label, num: j })), correct: true },
+    ...fakePlans.map(p => ({ plan: p, correct: false })),
+  ]);
+
+  qcmState.currentOptions = options;
+
+  const optHtml = options.map((o, i) => `
+    <button class="qcm-option" data-correct="${o.correct}" data-idx="${i}" onclick="answerQcm(this)">
+      <span class="qcm-letter">${QCM_LETTERS[i]}</span>
+      <span class="qcm-opt-body">
+        <ul class="qcm-plan-list">
+          ${o.plan.map((p, j) => `<li><span class="qcm-plan-num">${ROMAINS[j]}</span>${p.idee}</li>`).join('')}
+        </ul>
+      </span>
+    </button>
+  `).join('');
+
+  area.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-card-label">🎯 ${OBJET_LABEL[objet]} · Quel est le plan complet de ce texte ?</div>
+      <div class="quiz-card-target">${item.label}</div>
+      <div class="qcm-options">${optHtml}</div>
+      <div class="quiz-feedback" id="mvt-qcm-feedback"></div>
+    </div>
+  `;
+}
+
+// Construit l'explication des propositions FAUSSES (d'où elles viennent réellement)
+function buildQcmWrongExplain(currentLabel) {
+  const opts = qcmState.currentOptions || [];
+  const wrong = opts.filter(o => !o.correct);
+  if (!wrong.length) return '';
+
+  const items = wrong.map(o => {
+    if (qcmState.level === 'n1') {
+      const provenance = o.meme
+        ? `c'est en réalité le mouvement ${ROMAINS[o.num]} du <strong>même texte</strong>`
+        : `c'est en réalité le mouvement ${ROMAINS[o.num]} de « ${o.label} »`;
+      return `<li><span class="qcm-wrong-mark">×</span><span><em>« ${o.text} »</em> — ${provenance}.</span></li>`;
+    }
+    // n2 : plan recomposé → on liste l'origine de chaque mouvement
+    const detail = o.plan.map((p, j) => `${ROMAINS[j]} → « ${p.label} »`).join(' · ');
+    return `<li><span class="qcm-wrong-mark">×</span><span>Plan recomposé à partir d'autres textes : ${detail}.</span></li>`;
+  }).join('');
+
+  return `
+    <div class="qcm-wrong-box">
+      <div class="qcm-wrong-title">Pourquoi les autres propositions sont fausses</div>
+      <ul class="qcm-wrong-list">${items}</ul>
+    </div>
+  `;
+}
+
+function answerQcm(btn) {
+  if (qcmState.answered) return;
+  qcmState.answered = true;
+  qcmState.total++;
+
+  const q = qcmState.order[qcmState.index];
+  const isCorrect = btn.getAttribute('data-correct') === 'true';
+  if (isCorrect) qcmState.score++;
+
+  const area = document.getElementById('mvt-qcm-area');
+  area.querySelectorAll('.qcm-option').forEach(o => {
+    o.disabled = true;
+    if (o.getAttribute('data-correct') === 'true') o.classList.add('correct');
+  });
+  if (!isCorrect) btn.classList.add('incorrect');
+
+  const feedback = document.getElementById('mvt-qcm-feedback');
+  const item = MOUVEMENTS[q.key];
+  const wrongExplain = buildQcmWrongExplain(item.label);
+
+  if (qcmState.level === 'n1') {
+    const m = item.mvts[q.mvt];
+    feedback.className = 'quiz-feedback show ' + (isCorrect ? 'auto-correct' : 'auto-incorrect');
+    feedback.innerHTML = `
+      <div class="quiz-feedback-title">${isCorrect ? '✅ Bonne réponse !' : '❌ Mauvaise réponse.'}</div>
+      <div class="mvt-card" style="margin-top:0.6rem;">
+        <div class="mvt-card-head">
+          <span class="mvt-title">Bon mouvement · ${ROMAINS[q.mvt]}</span>
+          <span class="mvt-lignes">${m.lignes}</span>
+        </div>
+        <div class="mvt-idee">${m.idee}</div>
+        <div>
+          <span class="mvt-rub-label">Procédés essentiels</span>
+          <ul class="mvt-proc-list">${m.procedes.map(p => `<li>${p}</li>`).join('')}</ul>
+        </div>
+      </div>
+      ${wrongExplain}
+      <div class="quiz-buttons" style="margin-top:1rem;">
+        <button class="quiz-action-btn primary" onclick="nextQcm()">Question suivante →</button>
+      </div>
+    `;
+  } else {
+    feedback.className = 'quiz-feedback show ' + (isCorrect ? 'auto-correct' : 'auto-incorrect');
+    feedback.innerHTML = `
+      <div class="quiz-feedback-title">${isCorrect ? '✅ Bonne réponse !' : '❌ Mauvaise réponse.'}</div>
+      <div class="mvt-correction" style="margin-top:0.6rem;">
+        <div class="mvt-correction-title">Plan correct — ${item.label}</div>
+        ${buildMvtCorrection(q.key)}
+      </div>
+      ${wrongExplain}
+      <div class="quiz-buttons" style="margin-top:1rem;">
+        <button class="quiz-action-btn primary" onclick="nextQcm()">Question suivante →</button>
+      </div>
+    `;
+  }
+  updateQcmHeader();
+}
+
+function nextQcm() {
+  qcmState.index++;
+  renderQcmQuestion();
+  updateQcmHeader();
+}
+
+function renderQcmEnd() {
+  const area = document.getElementById('mvt-qcm-area');
+  if (!area) return;
+  const pct = qcmState.total > 0 ? Math.round((qcmState.score / qcmState.total) * 100) : 0;
+  area.innerHTML = `
+    <div class="quiz-card quiz-end-card">
+      <div class="quiz-end-score">${qcmState.score} / ${qcmState.total}</div>
+      <div class="quiz-end-label">${pct}% de réussite — ${qcmState.level === 'n1' ? 'Niveau 1 · Mouvement seul' : 'Niveau 2 · Plan complet'}</div>
+      <div class="quiz-buttons" style="justify-content:center;">
+        <button class="quiz-action-btn primary" onclick="startQcm('${qcmState.level}')">↻ Rejouer</button>
+        <button class="quiz-action-btn" onclick="renderQcmSetup()">Changer de niveau</button>
+      </div>
+    </div>
+  `;
 }
 </script>
 
